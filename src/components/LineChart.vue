@@ -1,13 +1,14 @@
 <template>
   <div>
-    <span>Line Chart</span>
-    <svg v-if="data.length === 264">
+    <!-- <span>Line Chart</span> -->
+    <svg v-if="data.length === 264" width="1200px" height="500px">
       <path
         v-for="(datas,index) in data"
         :key="index"
         :d="generateLine(datas.values,index)"
         stroke="pink"
         fill="none"
+        @clik="onClick(index)"
       ></path>
     </svg>
   </div>
@@ -53,32 +54,35 @@ export default {
   },
   methods: {
     generateLine: function(data, index) {
-      console.log("_____", data, index);
+      // console.log("_____", data, index);
       var xScale = d3
         .scaleLinear()
         .domain([1960, 2018]) //input
-        .range([0, 400]);
+        .range([100, 1100]);
       var yScale = d3
         .scaleLinear()
-        .domain([0, 3000])
-        .range([30, 0]);
+        .domain([0, 29000000])
+        .range([400, 100]);
       this.lineX
         .x(
           function(d, i) {
             // console.log(d);
-            return xScale(d.value);
+            return xScale(d.year);
           }.bind(this)
         ) // set the x values for the line generator
         .y(
           function(d, i) {
             // console.log(yScale(d[this.columns[i]]));
             // console.log(d);
-            return yScale(d.year);
+            return yScale(d.value);
           }.bind(this)
         );
       //   console.log(this.lineX(this.data[0]));
-      return this.lineX(Object.keys(data));
+      return this.lineX(data);
       // console.log(this.data);
+    },
+    onClick: function(e) {
+      console.log(e);
     }
   }
 };

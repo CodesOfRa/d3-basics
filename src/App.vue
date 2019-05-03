@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <line-chart :columns="columns" :data="data" :co2="co2"></line-chart>
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
