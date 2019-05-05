@@ -7,15 +7,15 @@
       <g v-if="data.length === 263">
         <path
           v-for="(d,index) in data"
-          :id="d.country"
-          :key="d.country"
           :d="generateLine(d.values,index)"
+          :key="d.country"
           :stroke="colours(index)"
-          stroke-width="1"
+          :stroke-width="selected[index]"
           fill="none"
-          @mouseover="onClick(d)"
+          @mouseover="onClick(d,index)"
           @click="onClick(d)"
         ></path>
+        <!-- :opacity="selected[index] == 1 ? 1 : 0.4" -->
         <!-- <circle
           v-for="(a,i) in datas.values"
           :key="i"
@@ -53,7 +53,7 @@ const d3 = {
   ...require("d3-selection")
 };
 export default {
-  props: ["data", "defaultData"],
+  props: ["data", "defaultData", "selected"],
   data: function() {
     return { path: d3.line() };
   },
@@ -71,20 +71,19 @@ export default {
       return d3.scaleSequential(d3.interpolateViridis).domain([0, 265]);
     },
     xScale: function() {
+      const { year, margin, width } = this.defaultData;
       var xScale = d3
         .scaleLinear()
-        .domain([this.defaultData.year.min, this.defaultData.year.max])
-        .range([this.defaultData.margin.bottom, this.defaultData.width]);
+        .domain([year.min, year.max])
+        .range([margin.bottom, width]);
       return xScale;
     },
     yScale: function() {
+      const { margin, heigth, value } = this.defaultData;
       var yScale = d3
         .scaleLinear()
-        .domain([0, this.defaultData.value.max])
-        .range([
-          this.defaultData.heigth - this.defaultData.margin.top,
-          this.defaultData.margin.bottom
-        ]);
+        .domain([0, value.max])
+        .range([heigth - margin.top, margin.top]);
       return yScale;
     }
   },
@@ -108,8 +107,9 @@ export default {
 
       return this.path(data);
     },
-    onClick: function(e) {
-      console.log(e);
+    onClick: function(e, index) {
+      // console.log(e, index);
+      this.$emit("onHover", index);
     }
   }
 };
