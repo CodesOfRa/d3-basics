@@ -28,7 +28,7 @@
         ></circle>-->
       </g>
 
-      <g v-for="(d,i) in data" :key="d">
+      <!-- <g v-for="(d,i) in data" :key="d">
         <circle
           v-for="(a,index) in d.values"
           :key="index"
@@ -39,7 +39,7 @@
           :cy="generateCircleCY(a)"
           opacity="0.4"
         ></circle>
-      </g>
+      </g>-->
     </svg>
   </div>
 </template>
@@ -56,6 +56,11 @@ export default {
   props: ["data", "defaultData", "selected"],
   data: function() {
     return { path: d3.line() };
+  },
+  watch: {
+    selected(val) {
+      console.log("test", val);
+    }
   },
   computed: {
     width: function() {
@@ -109,6 +114,7 @@ export default {
     },
     onClick: function(e, index) {
       // console.log(e, index);
+      this.selected[index] = 8;
       this.$emit("onHover", index);
     }
   }

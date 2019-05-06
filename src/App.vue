@@ -1,11 +1,28 @@
 <template>
-  <div id="app">
-    <line-chart :defaultData="defaultData" :data="data" :selected="selected" @onHover="handleHover"></line-chart>
-    <span>Legend</span>
-    <div class="legendT">
-      <div class="legendA" v-for="(c,index) in country" :key="country[index]">
-        <div class="legend" :style="{ background:colours(index), heigth:'50px'}" width="50px"/>
-        <span>{{country[index]}}</span>
+  <div id="app" class="wrapper">
+    <h1>CO2 emissions</h1>
+    <line-chart
+      class="center"
+      :defaultData="defaultData"
+      :data="data"
+      :selected="selected"
+      @onHover="handleHover"
+    ></line-chart>
+    <div>
+      <div class="legendDetails">
+        <span>Legend</span>
+        <span v-if="hover">{{pickedCountry}}</span>
+      </div>
+
+      <div class="legendT">
+        <div
+          :class="['legendA',!hover?'hoverActive':'']"
+          v-for="(c,index) in country"
+          :key="country[index]"
+          @mouseover="handleHover(index)"
+        >
+          <div class="legend" :style="{ background:colours(index)}"/>
+        </div>
       </div>
     </div>
   </div>
@@ -25,7 +42,7 @@ export default {
       data: [],
       country: [],
       defaultData: {
-        width: 1200,
+        width: 1210,
         heigth: 500,
         margin: {
           top: 100,
@@ -39,7 +56,9 @@ export default {
           max: 38000000
         }
       },
-      selected: new Array(262).fill(1)
+      hover: false,
+      pickedCountry: "",
+      selected: new Array(263).fill(1)
     };
   },
   computed: {
@@ -70,13 +89,33 @@ export default {
       });
 
       this.data = co2;
+    },
+    // handleHover: function(index) {
+    //   console.log(index);
+    //   this.selected.fill(1);
+    //   this.selected[index] = 8;
+    // },
+    handleHover: function(index) {
+      // version1
+      this.selected.fill(1);
+      this.selected[index] = 10;
+      this.selected = [...this.selected];
+      this.hover = true;
+      this.pickedCountry = this.country[index];
+      // version 2
+      /* const newSelected = [...this.selected];
+      newSelected[index] = 10;
+      this.selected = newSelected;*/
+
+      // this.selected[index] = this.selected[index] + 1;
+
+      //version 3
+      // this.$set(this.selected, index, this.selected[index] + 1);
+      console.log(this.selected[index]);
     }
-  },
-  handleHover: function(index) {
-    console.log(index);
-    this.selected.fill(1);
-    this.selected[index] = 2;
   }
+
+  // mouseOver:
 };
 </script>
 
@@ -90,11 +129,11 @@ export default {
   margin-top: 60px;
 }
 .legendT {
-  /* display: flex; */
+  display: flex;
 }
 .legend {
-  height: 10px;
-  width: 10px;
+  height: 20px;
+  width: 6px;
 }
 .legendA {
   display: flex;
@@ -106,10 +145,26 @@ export default {
   justify-content: center;
   flex-direction: column;
 }
+.legendDetails span {
+  margin: 1rem;
+}
 .legendA span {
-  /* transform: rotate(-90deg);
-  transform: rotate(-90deg);
-  font-size: 9px; */
   font-size: 9px;
+  display: inline-block;
+  white-space: nowrap;
+  transform: translate(0, 100%) rotate(-90deg);
+  transform-origin: 0 0;
+  vertical-align: bottom;
+}
+.center {
+  text-align: center;
+}
+.wrapper h1,
+line-chart {
+  /* display: flex; */
+  text-align: center;
+}
+.hoverActive {
+  border: 2px solid red;
 }
 </style>
