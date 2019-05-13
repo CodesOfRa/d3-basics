@@ -165,6 +165,6 @@ line-chart {
   text-align: center;
 }
 .hoverActive {
-  border: 2px solid red;
+  /* border: 2px solid red; */
 }
 </style>
