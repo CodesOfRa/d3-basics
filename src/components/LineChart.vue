@@ -2,8 +2,8 @@
   <div>
     <!-- <span>Line Chart</span> -->
     <svg :width="width" :height="heigth">
-      <g ref="xAxis" transform="translate(0, 400)"></g>
-      <g ref="yAxis" transform="translate(100, 0)"></g>
+      <g ref="xAxis" transform="translate(0, 400)" />
+      <g ref="yAxis" transform="translate(100, 0)" />
       <g v-if="data.length === 263">
         <path
           v-for="(d,index) in data"
@@ -14,32 +14,8 @@
           fill="none"
           @mouseover="onClick(d,index)"
           @click="onClick(d)"
-        ></path>
-        <!-- :opacity="selected[index] == 1 ? 1 : 0.4" -->
-        <!-- <circle
-          v-for="(a,i) in datas.values"
-          :key="i"
-          r="2"
-          :fill="colours(index)"
-          :stroke="colours(index)"
-          :cx="generateCircleCX(a)"
-          :cy="generateCircleCY(a)"
-          opacity="0.4"
-        ></circle>-->
+        />
       </g>
-
-      <!-- <g v-for="(d,i) in data" :key="d">
-        <circle
-          v-for="(a,index) in d.values"
-          :key="index"
-          r="2"
-          :fill="colours(i)"
-          :stroke="colours(i)"
-          :cx="generateCircleCX(a)"
-          :cy="generateCircleCY(a)"
-          opacity="0.4"
-        ></circle>
-      </g>-->
     </svg>
   </div>
 </template>
@@ -54,24 +30,18 @@ const d3 = {
 };
 export default {
   props: ["data", "defaultData", "selected"],
-  data: function() {
-    return { path: d3.line() };
-  },
-  watch: {
-    selected(val) {
-      console.log("test", val);
-    }
-  },
+
   computed: {
+    path() {
+      return d3.line();
+    },
     width: function() {
       return this.defaultData.width + "px";
     },
     heigth: function() {
       return this.defaultData.heigth + "px";
     },
-    line: function() {
-      this.generateLine();
-    },
+
     colours: function() {
       return d3.scaleSequential(d3.interpolateViridis).domain([0, 265]);
     },
@@ -113,7 +83,6 @@ export default {
       return this.path(data);
     },
     onClick: function(e, index) {
-      // console.log(e, index);
       this.selected[index] = 8;
       this.$emit("onHover", index);
     }

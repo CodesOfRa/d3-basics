@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="wrapper">
-    <h1>CO2 emissions</h1>
+    <h1 href="https://github.com/CodesOfRa/d3-basics">CO2 emissions</h1>
     <line-chart
       class="center"
       :defaultData="defaultData"
@@ -21,7 +21,7 @@
           :key="country[index]"
           @mouseover="handleHover(index)"
         >
-          <div class="legend" :style="{ background:colours(index)}"/>
+          <div class="legend" :style="{ background:colours(index)}" />
         </div>
       </div>
     </div>
@@ -63,7 +63,6 @@ export default {
   },
   computed: {
     colours: function() {
-      console.log("----");
       return d3.scaleSequential(d3.interpolateViridis).domain([0, 265]);
     }
   },
@@ -90,11 +89,7 @@ export default {
 
       this.data = co2;
     },
-    // handleHover: function(index) {
-    //   console.log(index);
-    //   this.selected.fill(1);
-    //   this.selected[index] = 8;
-    // },
+
     handleHover: function(index) {
       // version1
       this.selected.fill(1);
@@ -111,11 +106,8 @@ export default {
 
       //version 3
       // this.$set(this.selected, index, this.selected[index] + 1);
-      console.log(this.selected[index]);
     }
   }
-
-  // mouseOver:
 };
 </script>
 
