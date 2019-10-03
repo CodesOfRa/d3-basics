@@ -1,6 +1,8 @@
 <template>
   <div id="app" class="wrapper">
-    <h1 href="https://github.com/CodesOfRa/d3-basics">CO2 emissions</h1>
+    <a href="https://github.com/CodesOfRa/d3-basics">
+      <h1>CO2 emissions</h1>
+    </a>
     <line-chart
       class="center"
       :defaultData="defaultData"
